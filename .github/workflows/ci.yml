@@ -82,7 +82,7 @@ jobs:
       # Shows test coverage percentage on your repo
       # -----------------------------------------------------------------------
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           file: ./coverage.xml
 
