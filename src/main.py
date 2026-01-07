@@ -114,10 +114,11 @@ app = FastAPI(title="GRAYSON - AI Research Assistant")
 # Enable CORS for frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*", "null"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 settings = get_settings()
