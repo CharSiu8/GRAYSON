@@ -32,7 +32,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # -----------------------------------------------------------------------
       # STEP: Set up Docker Buildx
@@ -75,7 +75,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # -----------------------------------------------------------------------
       # OPTION 1: Deploy to Railway (simple, good for portfolio projects)
