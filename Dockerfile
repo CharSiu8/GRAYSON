@@ -18,7 +18,7 @@
 # Stage 1: Builder
 # Install dependencies in a separate stage to keep final image small
 # ---------------------------------------------------------
-FROM python:3.11-slim as builder
+FROM python:3.14-slim as builder
 
 WORKDIR /app
 
@@ -35,7 +35,7 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r requirements.t
 # Stage 2: Production
 # Minimal image with only runtime dependencies
 # ---------------------------------------------------------
-FROM python:3.11-slim as production
+FROM python:3.14-slim as production
 
 # Create non-root user for security
 # (Running as root in containers is a security risk)
