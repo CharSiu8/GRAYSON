@@ -1,18 +1,3 @@
-# ================================================================================
-# WHAT THIS FILE IS:
-# Unit tests for the main application module.
-#
-# WHY YOU NEED IT:
-# - Verifies your code works correctly
-# - Catches bugs before they reach production
-# - Documents expected behavior
-# - Essential for any professional project
-#
-# WHAT TO PUT IN IT:
-# Tests for each function/class in the corresponding source file.
-# Follow the pattern: test_<what_you_are_testing>_<expected_behavior>
-# ================================================================================
-
 """
 Tests for the main application module.
 

@@ -1,17 +1,3 @@
-# ================================================================================
-# WHAT THIS FILE IS:
-# Configuration for GitHub's Dependabot - automatically updates dependencies.
-#
-# WHY YOU NEED IT:
-# - Keeps your dependencies up to date automatically
-# - Alerts you to security vulnerabilities
-# - Shows you care about security and maintenance
-# - Very low effort, high impact on project health
-#
-# WHAT TO PUT IN IT:
-# Configure which package ecosystems to monitor and how often to check.
-# ================================================================================
-
 version: 2
 updates:
   # ---------------------------------------------------------

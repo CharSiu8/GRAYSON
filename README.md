@@ -1,19 +1,5 @@
 # GRAYSON - Theology & Philosophy Research Assistant
 
-<!--
-================================================================================
-WHAT THIS FILE IS:
-The main documentation file for the GRAYSON project. This is the first thing
-visitors see on GitHub.
-
-WHY YOU NEED IT:
-- Explains what the project does and why it exists
-- Provides setup and usage instructions
-- Shows the project structure and architecture
-- Helps employers and collaborators understand the project quickly
-================================================================================
--->
-
 ## Live Demo
 
 **Try it now:** [https://grayson-7um6.onrender.com](https://grayson-7um6.onrender.com)

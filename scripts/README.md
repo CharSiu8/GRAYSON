@@ -1,18 +1,5 @@
 # scripts/ - Utility Scripts
 
-<!--
-================================================================================
-WHAT THIS FILE IS:
-README for the scripts/ directory explaining utility and setup scripts.
-
-WHY YOU NEED IT:
-- Documents available scripts and their purposes
-- Provides usage instructions for each script
-- Helps developers set up their environment correctly
-- Shows the project includes helpful automation
-================================================================================
--->
-
 ## Overview
 
 This directory contains utility scripts for setting up and maintaining the GRAYSON development environment.

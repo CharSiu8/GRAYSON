@@ -1,18 +1,3 @@
-# ================================================================================
-# WHAT THIS FILE IS:
-# A collection of shortcuts for common development commands.
-#
-# WHY YOU NEED IT:
-# - Simplifies complex commands into easy-to-remember shortcuts
-# - Documents how to perform common tasks
-# - Makes onboarding new contributors easier
-# - Shows you think about developer experience
-#
-# WHAT TO PUT IN IT:
-# Commands you run frequently during development.
-# Usage: make <command>  (e.g., make test, make lint, make run)
-# ================================================================================
-
 .PHONY: help install install-dev test lint format type-check run docker-build docker-run clean
 
 # Default target - show help

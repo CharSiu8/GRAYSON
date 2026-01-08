@@ -6,23 +6,6 @@ labels: enhancement
 assignees: ''
 ---
 
-<!--
-================================================================================
-WHAT THIS FILE IS:
-An issue template for feature requests and enhancement suggestions.
-
-WHY YOU NEED IT:
-- Encourages structured feedback from users
-- Shows you're open to collaboration and improvements
-- Demonstrates product thinking (not just code)
-- Makes your project feel like a real product
-
-WHAT TO PUT IN IT:
-Keep this template as-is. It will appear when someone creates a new issue
-and selects "Feature Request".
-================================================================================
--->
-
 ## Problem Statement
 A clear description of the problem you're trying to solve.
 Ex. "I'm frustrated when [...]"

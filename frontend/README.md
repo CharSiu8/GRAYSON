@@ -1,18 +1,5 @@
 # frontend/ - Web User Interface
 
-<!--
-================================================================================
-WHAT THIS FILE IS:
-README for the frontend/ directory explaining the web chat interface.
-
-WHY YOU NEED IT:
-- Documents the frontend architecture and design decisions
-- Explains how to run and modify the UI
-- Helps contributors understand the frontend stack
-- Shows the project has a complete user-facing interface
-================================================================================
--->
-
 ## Overview
 
 This directory contains the web chat interface for GRAYSON. It provides a clean, responsive chat UI for interacting with the AI research assistant.

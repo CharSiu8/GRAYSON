@@ -1,13 +1,3 @@
-# ================================================================================
-# WHAT THIS FILE IS:
-# PDF lookup service to find free/open access versions of academic papers.
-#
-# WHY YOU NEED IT:
-# - Helps users access papers without paywalls
-# - Uses Unpaywall (primary) and Semantic Scholar (fallback)
-# - Returns direct PDF links when available
-# ================================================================================
-
 """PDF lookup service using Unpaywall and Semantic Scholar APIs."""
 
 import logging

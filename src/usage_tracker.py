@@ -1,14 +1,3 @@
-# ================================================================================
-# WHAT THIS FILE IS:
-# Usage tracker for monitoring and limiting OpenAI API costs.
-#
-# WHY YOU NEED IT:
-# - Tracks token usage and calculates costs
-# - Enforces monthly spending limit ($10/month)
-# - Auto-resets on the 1st of each month
-# - Prevents runaway API costs
-# ================================================================================
-
 """Usage tracking and cost limiting for OpenAI API calls."""
 
 import json

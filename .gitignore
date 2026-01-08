@@ -1,17 +1,3 @@
-# ================================================================================
-# WHAT THIS FILE IS:
-# Tells Git which files and folders to ignore (not track in version control).
-#
-# WHY YOU NEED IT:
-# - Prevents sensitive data (API keys, secrets) from being committed
-# - Keeps your repo clean from build artifacts and cache files
-# - Avoids committing large files that shouldn't be in version control
-# - Essential for security and professionalism
-#
-# WHAT TO PUT IN IT:
-# This template covers Python/AI projects. Add or remove patterns as needed.
-# ================================================================================
-
 # ---------------------------------------------------------
 # Python
 # ---------------------------------------------------------

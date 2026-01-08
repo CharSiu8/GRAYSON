@@ -1,19 +1,3 @@
-<!--
-================================================================================
-WHAT THIS FILE IS:
-A template that appears when someone creates a pull request on your repository.
-
-WHY YOU NEED IT:
-- Ensures consistent, well-documented pull requests
-- Shows you follow professional code review practices
-- Makes reviewing code changes easier
-- Demonstrates you understand team collaboration workflows
-
-WHAT TO PUT IN IT:
-Keep this template as-is. It structures PRs with essential information.
-================================================================================
--->
-
 ## Description
 <!-- Describe your changes in detail -->
 

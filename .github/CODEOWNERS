@@ -1,18 +1,3 @@
-# ================================================================================
-# WHAT THIS FILE IS:
-# Defines who is responsible for reviewing changes to different parts of the codebase.
-#
-# WHY YOU NEED IT:
-# - Automatically assigns reviewers to pull requests
-# - Documents code ownership and expertise
-# - Shows you understand team collaboration (even for solo projects)
-# - Required for branch protection rules in some orgs
-#
-# WHAT TO PUT IN IT:
-# Patterns matching files/directories and the GitHub usernames of owners.
-# Format: <pattern> <@username or @org/team>
-# ================================================================================
-
 # ---------------------------------------------------------
 # Default owner for everything
 # Replace 'yourusername' with your GitHub username

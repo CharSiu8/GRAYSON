@@ -1,18 +1,5 @@
 # tests/ - Test Suite
 
-<!--
-================================================================================
-WHAT THIS FILE IS:
-README for the tests/ directory explaining the test structure and how to run tests.
-
-WHY YOU NEED IT:
-- Documents the testing strategy and structure
-- Helps contributors understand how to write and run tests
-- Shows commitment to code quality and best practices
-- Essential for maintaining a professional codebase
-================================================================================
--->
-
 ## Overview
 
 This directory contains the pytest test suite for GRAYSON. Tests ensure the reliability and correctness of the backend components.

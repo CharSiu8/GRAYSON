@@ -1,13 +1,3 @@
-# ================================================================================
-# WHAT THIS FILE IS:
-# Embeddings wrapper for converting text to vector representations.
-#
-# WHY YOU NEED IT:
-# - Converts text into semantic vectors for similarity search
-# - Uses OpenAI embeddings API for high-quality, low-memory embeddings
-# - Enables semantic search in the vector database
-# ================================================================================
-
 """Embeddings helper using OpenAI API.
 """
 from typing import List

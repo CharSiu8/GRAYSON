@@ -1,18 +1,3 @@
-# ================================================================================
-# WHAT THIS FILE IS:
-# Defines multi-container Docker applications - your app plus databases, etc.
-#
-# WHY YOU NEED IT:
-# - Spins up your entire development environment with one command
-# - Documents what services your app depends on
-# - Makes local development match production more closely
-# - Essential for apps with databases, caches, or other services
-#
-# WHAT TO PUT IN IT:
-# Define all services your app needs (app, database, vector store, etc.)
-# Run with: docker-compose up
-# ================================================================================
-
 version: '3.8'
 
 services:

@@ -1,18 +1,5 @@
 # docs/ - Documentation
 
-<!--
-================================================================================
-WHAT THIS FILE IS:
-README for the docs/ directory explaining the documentation structure.
-
-WHY YOU NEED IT:
-- Provides an index to all project documentation
-- Helps readers find relevant documentation quickly
-- Shows the project is well-documented
-- Essential for onboarding and collaboration
-================================================================================
--->
-
 ## Overview
 
 This directory contains detailed documentation for the GRAYSON project beyond what's in the main README.

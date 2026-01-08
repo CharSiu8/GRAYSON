@@ -1,17 +1,3 @@
-# ================================================================================
-# WHAT THIS FILE IS:
-# The main entry point for your application.
-#
-# WHY YOU NEED IT:
-# - Initializes and starts your application
-# - Configures logging, settings, and dependencies
-# - For APIs: sets up the web server and routes
-# - For CLIs: handles command-line arguments
-#
-# WHAT TO PUT IN IT:
-# Your application's startup logic. Examples below for different app types.
-# ================================================================================
-
 """
 Main application entry point.
 

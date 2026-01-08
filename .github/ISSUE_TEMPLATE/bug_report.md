@@ -6,23 +6,6 @@ labels: bug
 assignees: ''
 ---
 
-<!--
-================================================================================
-WHAT THIS FILE IS:
-An issue template that provides a structured format for bug reports.
-
-WHY YOU NEED IT:
-- Shows you think about user experience and project maintenance
-- Makes it easier for others to report issues properly
-- Demonstrates you understand open-source project management
-- Employers look for this level of polish
-
-WHAT TO PUT IN IT:
-Keep this template as-is. It will appear when someone creates a new issue
-on your GitHub repository and selects "Bug Report".
-================================================================================
--->
-
 ## Bug Description
 A clear and concise description of the bug.
 

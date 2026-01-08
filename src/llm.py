@@ -1,14 +1,3 @@
-# ================================================================================
-# WHAT THIS FILE IS:
-# Language model client for generating AI-powered research responses.
-#
-# WHY YOU NEED IT:
-# - Interfaces with OpenAI API for response generation
-# - Builds context-aware prompts from retrieved documents
-# - Generates library search links (OMNI, JSTOR)
-# - Provides fallback for local testing without API key
-# ================================================================================
-
 """LLM wrapper with an API-based implementation and a placeholder for local models.
 """
 import os

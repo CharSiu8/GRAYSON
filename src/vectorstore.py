@@ -1,14 +1,3 @@
-# ================================================================================
-# WHAT THIS FILE IS:
-# Vector database wrapper for storing and querying document embeddings.
-#
-# WHY YOU NEED IT:
-# - Provides persistent storage for semantic embeddings
-# - Enables fast similarity search across documents
-# - Abstracts ChromaDB implementation details
-# - Handles document chunking and metadata storage
-# ================================================================================
-
 """Simple Chroma-backed vector store wrapper.
 """
 from typing import List, Dict, Any

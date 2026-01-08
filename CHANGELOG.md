@@ -1,22 +1,5 @@
 # Changelog
 
-<!--
-================================================================================
-WHAT THIS FILE IS:
-A chronological log of notable changes made to your project.
-
-WHY YOU NEED IT:
-- Documents the evolution of your project
-- Helps users understand what's new in each version
-- Shows employers you maintain projects professionally
-- Can be auto-generated from conventional commits
-
-WHAT TO PUT IN IT:
-Follow the Keep a Changelog format (https://keepachangelog.com/).
-Update this file with each release or significant change.
-================================================================================
--->
-
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
@@ -55,25 +38,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic project structure
 - CI/CD pipeline configuration
 - Documentation templates
-
-<!--
-================================================================================
-EXAMPLE ENTRIES (delete when you add real entries):
-
-## [1.2.0] - 2024-03-15
-
-### Added
-- PDF document ingestion with automatic text extraction
-- Semantic search across uploaded documents
-- Export research findings to Markdown
-
-### Changed
-- Improved chunking strategy for better retrieval accuracy
-- Updated to LangChain 0.1.5
-
-### Fixed
-- Memory leak when processing large documents
-- Incorrect citation numbering in summaries
-
-================================================================================
--->

@@ -1,14 +1,3 @@
-# ================================================================================
-# WHAT THIS FILE IS:
-# Ingestion utilities for fetching academic papers from OpenAlex and Semantic Scholar.
-#
-# WHY YOU NEED IT:
-# - Provides the data pipeline for populating the vector database
-# - Filters results to theology, philosophy, and biblical studies
-# - Handles API communication with academic data sources
-# - Normalizes paper metadata for consistent storage
-# ================================================================================
-
 """Ingestion utilities for theology, philosophy, and biblical studies.
 
 This module focuses exclusively on academic sources in theology, philosophy, and religion.

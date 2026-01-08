@@ -1,18 +1,5 @@
 # .github/ - GitHub Configuration
 
-<!--
-================================================================================
-WHAT THIS FILE IS:
-README for the .github/ directory explaining GitHub-specific configuration files.
-
-WHY YOU NEED IT:
-- Documents the CI/CD pipeline and GitHub integrations
-- Helps contributors understand the automated workflows
-- Explains issue and PR templates
-- Shows professional GitHub repository setup
-================================================================================
--->
-
 ## Overview
 
 This directory contains GitHub-specific configuration files for repository automation, CI/CD pipelines, and community standards.

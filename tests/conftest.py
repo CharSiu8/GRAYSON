@@ -1,17 +1,3 @@
-# ================================================================================
-# WHAT THIS FILE IS:
-# Pytest configuration and shared fixtures for all tests.
-#
-# WHY YOU NEED IT:
-# - Centralizes test setup and teardown logic
-# - Defines reusable fixtures (test data, mock objects, etc.)
-# - Automatically discovered by pytest - no imports needed
-# - Reduces code duplication across test files
-#
-# WHAT TO PUT IN IT:
-# Fixtures, configuration, and setup code shared across tests.
-# ================================================================================
-
 """
 Pytest configuration and shared fixtures.
 

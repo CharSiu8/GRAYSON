@@ -1,18 +1,5 @@
 # GRAYSON — Project Overview
 
-<!--
-================================================================================
-WHAT THIS FILE IS:
-Comprehensive project overview including goals, architecture, and data flow.
-
-WHY YOU NEED IT:
-- Provides detailed context beyond the main README
-- Documents the problem being solved and approach taken
-- Helps new contributors understand the project vision
-- Shows thoughtful planning and system design
-================================================================================
--->
-
 ## Project Overview
 GRAYSON is an AI Research Assistant (RAG chatbot) that helps researchers locate, summarize, and cite relevant resources from multiple sources (PDFs, web pages, academic papers, public libraries, and YouTube). It creates semantic embeddings of ingested content, stores them in a vector database, and uses those embeddings to provide contextually relevant answers through a web chat interface.
 

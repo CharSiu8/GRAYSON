@@ -1,17 +1,3 @@
-# ================================================================================
-# WHAT THIS FILE IS:
-# Centralized configuration management for your application.
-#
-# WHY YOU NEED IT:
-# - Keeps all settings in one place
-# - Loads environment variables safely
-# - Validates configuration at startup
-# - Makes it easy to switch between dev/staging/production
-#
-# WHAT TO PUT IN IT:
-# All configuration settings, loaded from environment variables or config files.
-# ================================================================================
-
 """
 Application configuration management.
 

@@ -1,19 +1,3 @@
-# ================================================================================
-# WHAT THIS FILE IS:
-# Instructions for building a Docker container for your application.
-#
-# WHY YOU NEED IT:
-# - Containerization is HIGHLY valued in AI/ML engineering roles
-# - Ensures your app runs the same everywhere (local, cloud, prod)
-# - Makes deployment to cloud platforms trivial
-# - Shows you understand DevOps and MLOps practices
-#
-# WHAT TO PUT IN IT:
-# Define the environment, dependencies, and how to run your app.
-# Build with: docker build -t ai-research-assistant .
-# Run with: docker run -p 8000:8000 ai-research-assistant
-# ================================================================================
-
 # ---------------------------------------------------------
 # Stage 1: Builder
 # Install dependencies in a separate stage to keep final image small

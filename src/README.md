@@ -1,18 +1,5 @@
 # src/ - Backend Source Code
 
-<!--
-================================================================================
-WHAT THIS FILE IS:
-README for the src/ directory explaining the backend source code structure.
-
-WHY YOU NEED IT:
-- Helps developers understand the codebase organization
-- Documents the purpose of each module
-- Makes onboarding new contributors easier
-- Shows thoughtful project organization to employers
-================================================================================
--->
-
 ## Overview
 
 This directory contains the core backend code for GRAYSON, a RAG (Retrieval-Augmented Generation) chatbot for theology and philosophy research.

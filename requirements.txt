@@ -1,20 +1,3 @@
-# ================================================================================
-# WHAT THIS FILE IS:
-# Lists all Python packages your project needs to run.
-#
-# WHY YOU NEED IT:
-# - Allows others to install all dependencies with one command
-# - Ensures consistent environments across different machines
-# - Standard practice for Python projects
-# - Makes deployment reproducible
-#
-# WHAT TO PUT IN IT:
-# Add packages as you build your project. Pin versions for stability.
-# Example: package-name==1.2.3
-#
-# Install with: pip install -r requirements.txt
-# ================================================================================
-
 # ---------------------------------------------------------
 # Core LLM Frameworks (choose based on your architecture)
 # ---------------------------------------------------------

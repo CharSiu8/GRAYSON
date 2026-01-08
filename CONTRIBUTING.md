@@ -1,34 +1,11 @@
 # Contributing to AI Research Assistant
 
-<!--
-================================================================================
-WHAT THIS FILE IS:
-Guidelines for how others can contribute to your project.
-
-WHY YOU NEED IT:
-- Shows you understand open-source collaboration
-- Demonstrates you can write clear documentation
-- Makes your project appear more professional and maintainable
-- Employers value collaboration skills
-
-WHAT TO PUT IN IT:
-Customize the sections below for your specific project.
-================================================================================
--->
-
 Thank you for your interest in contributing! This document provides guidelines
 for contributing to the AI Research Assistant project.
 
 ## Getting Started
 
 ### Prerequisites
-<!--
-List what contributors need to have installed.
-Example:
-- Python 3.11+
-- Git
-- A code editor (VS Code recommended)
--->
 
 ### Setting Up the Development Environment
 
@@ -56,9 +33,7 @@ Example:
 ## Development Workflow
 
 ### Branching Strategy
-<!--
-Explain your branching model. Example:
--->
+
 - `main` - Production-ready code
 - `develop` - Integration branch for features
 - `feature/*` - New features (e.g., `feature/add-pdf-parsing`)
@@ -85,9 +60,6 @@ Explain your branching model. Example:
 7. Push and create a pull request
 
 ### Commit Message Guidelines
-<!--
-Following conventional commits makes your history readable and enables automated changelogs.
--->
 
 We follow [Conventional Commits](https://www.conventionalcommits.org/):
 
@@ -109,9 +81,7 @@ docs: update installation instructions
 ## Code Style
 
 ### Python Style Guide
-<!--
-Define your code standards. Example:
--->
+
 - Follow [PEP 8](https://pep8.org/)
 - Use type hints for all function parameters and return values
 - Maximum line length: 88 characters (Black default)
