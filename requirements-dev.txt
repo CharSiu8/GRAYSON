@@ -1,0 +1,67 @@
+# ================================================================================
+# WHAT THIS FILE IS:
+# Development-only dependencies (testing, linting, formatting, etc.)
+# Kept separate from production requirements.
+#
+# WHY YOU NEED IT:
+# - Separates dev tools from production dependencies
+# - Keeps production deployments lean
+# - Shows you understand dependency management
+# - Standard practice in professional projects
+#
+# WHAT TO PUT IN IT:
+# Testing frameworks, linters, formatters, and development utilities.
+# Install with: pip install -r requirements-dev.txt
+# ================================================================================
+
+# ---------------------------------------------------------
+# Testing
+# ---------------------------------------------------------
+pytest==7.4.0
+pytest-cov==4.1.0           # Coverage reporting
+pytest-asyncio==0.23.0      # Async test support
+pytest-mock==3.12.0         # Mocking utilities
+httpx==0.26.0               # For testing FastAPI
+
+# ---------------------------------------------------------
+# Code Quality - Linting
+# ---------------------------------------------------------
+ruff==0.1.9                 # Fast Python linter (replaces flake8, isort, etc.)
+# flake8==7.0.0             # Alternative linter
+# pylint==3.0.0             # More comprehensive linting
+
+# ---------------------------------------------------------
+# Code Quality - Formatting
+# ---------------------------------------------------------
+black==23.12.0              # Code formatter
+isort==5.13.0               # Import sorter
+
+# ---------------------------------------------------------
+# Type Checking
+# ---------------------------------------------------------
+mypy==1.8.0                 # Static type checker
+types-requests==2.31.0      # Type stubs for requests
+
+# ---------------------------------------------------------
+# Pre-commit Hooks
+# ---------------------------------------------------------
+pre-commit==3.6.0           # Git hooks framework
+
+# ---------------------------------------------------------
+# Security Scanning
+# ---------------------------------------------------------
+bandit==1.7.6               # Security linter
+safety==2.3.5               # Dependency vulnerability checker
+
+# ---------------------------------------------------------
+# Documentation
+# ---------------------------------------------------------
+# mkdocs==1.5.0             # Documentation generator
+# mkdocs-material==9.5.0    # Beautiful theme
+# mkdocstrings==0.24.0      # Auto-generate from docstrings
+
+# ---------------------------------------------------------
+# Development Utilities
+# ---------------------------------------------------------
+ipython==8.19.0             # Better Python REPL
+python-dotenv==1.0.0        # Load .env files

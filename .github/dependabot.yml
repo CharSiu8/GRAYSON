@@ -1,0 +1,58 @@
+# ================================================================================
+# WHAT THIS FILE IS:
+# Configuration for GitHub's Dependabot - automatically updates dependencies.
+#
+# WHY YOU NEED IT:
+# - Keeps your dependencies up to date automatically
+# - Alerts you to security vulnerabilities
+# - Shows you care about security and maintenance
+# - Very low effort, high impact on project health
+#
+# WHAT TO PUT IN IT:
+# Configure which package ecosystems to monitor and how often to check.
+# ================================================================================
+
+version: 2
+updates:
+  # ---------------------------------------------------------
+  # Python dependencies (pip)
+  # ---------------------------------------------------------
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "python"
+    commit-message:
+      prefix: "chore(deps):"
+
+  # ---------------------------------------------------------
+  # GitHub Actions
+  # Keeps your CI/CD workflows up to date
+  # ---------------------------------------------------------
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "chore(ci):"
+
+  # ---------------------------------------------------------
+  # Docker (if using Dockerfile)
+  # ---------------------------------------------------------
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "docker"
+    commit-message:
+      prefix: "chore(docker):"

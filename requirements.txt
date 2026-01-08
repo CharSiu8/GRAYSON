@@ -1,0 +1,100 @@
+# ================================================================================
+# WHAT THIS FILE IS:
+# Lists all Python packages your project needs to run.
+#
+# WHY YOU NEED IT:
+# - Allows others to install all dependencies with one command
+# - Ensures consistent environments across different machines
+# - Standard practice for Python projects
+# - Makes deployment reproducible
+#
+# WHAT TO PUT IN IT:
+# Add packages as you build your project. Pin versions for stability.
+# Example: package-name==1.2.3
+#
+# Install with: pip install -r requirements.txt
+# ================================================================================
+
+# ---------------------------------------------------------
+# Core LLM Frameworks (choose based on your architecture)
+# ---------------------------------------------------------
+# LangChain - popular, lots of integrations
+# langchain==0.1.0
+# langchain-openai==0.0.5
+# langchain-community==0.0.10
+
+# LlamaIndex - great for RAG applications
+# llama-index==0.9.0
+
+# ---------------------------------------------------------
+# LLM Providers
+# ---------------------------------------------------------
+# openai==1.6.0
+# anthropic==0.8.0
+
+# ---------------------------------------------------------
+# Vector Databases
+# ---------------------------------------------------------
+# chromadb==0.4.22          # Local, easy to start
+# pinecone-client==2.2.4    # Managed, production-ready
+# weaviate-client==4.4.0    # Feature-rich
+
+# ---------------------------------------------------------
+# Document Processing
+# ---------------------------------------------------------
+# pypdf==3.17.0             # PDF parsing
+# python-docx==1.1.0        # Word documents
+# beautifulsoup4==4.12.0    # HTML parsing
+# unstructured==0.12.0      # Universal document parsing
+
+# ---------------------------------------------------------
+# Web Framework (for API)
+# ---------------------------------------------------------
+# FastAPI for API (use a release compatible with Pydantic v2)
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+
+# Configuration (Python 3.13 compatible)
+pydantic>=2.10.0
+pydantic-settings>=2.0.0
+python-dotenv>=1.0.0
+
+# HTTP client
+requests>=2.31.0
+
+# Embeddings (using OpenAI API - no heavy ML dependencies)
+numpy>=1.26.0
+
+# Vector DB
+chromadb>=0.5.0
+
+# PDF parsing
+pypdf>=4.0.0
+
+# LLM provider (OpenAI SDK - optional if using API mode)
+openai>=1.50.0
+
+# Utilities
+pytest>=8.0.0
+# httpx pinned to a compatible recent release
+httpx>=0.28.0
+
+# ---------------------------------------------------------
+# Frontend (if building a UI)
+# ---------------------------------------------------------
+# streamlit==1.30.0         # Quick prototyping
+# gradio==4.14.0            # ML-focused UI
+
+# ---------------------------------------------------------
+# Utilities
+# ---------------------------------------------------------
+# python-dotenv==1.0.0      # Environment variable loading
+# httpx==0.26.0             # HTTP client
+# tenacity==8.2.0           # Retry logic
+# tiktoken==0.5.0           # Token counting
+
+# ---------------------------------------------------------
+# Data Processing
+# ---------------------------------------------------------
+# numpy==1.26.0
+# pandas==2.1.0

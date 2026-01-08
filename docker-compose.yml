@@ -1,0 +1,113 @@
+# ================================================================================
+# WHAT THIS FILE IS:
+# Defines multi-container Docker applications - your app plus databases, etc.
+#
+# WHY YOU NEED IT:
+# - Spins up your entire development environment with one command
+# - Documents what services your app depends on
+# - Makes local development match production more closely
+# - Essential for apps with databases, caches, or other services
+#
+# WHAT TO PUT IN IT:
+# Define all services your app needs (app, database, vector store, etc.)
+# Run with: docker-compose up
+# ================================================================================
+
+version: '3.8'
+
+services:
+  # ---------------------------------------------------------
+  # Main Application
+  # ---------------------------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=development
+      - LOG_LEVEL=DEBUG
+      # Reference secrets from .env file
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      # Connect to other services
+      - CHROMA_HOST=chromadb
+      - CHROMA_PORT=8000
+      # - REDIS_URL=redis://redis:6379
+    volumes:
+      # Mount source code for hot reloading during development
+      - ./src:/app/src:ro
+    depends_on:
+      - chromadb
+      # - redis
+    restart: unless-stopped
+
+  # ---------------------------------------------------------
+  # ChromaDB - Vector Database (local, good for development)
+  # ---------------------------------------------------------
+  chromadb:
+    image: chromadb/chroma:latest
+    ports:
+      - "8001:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    environment:
+      - ANONYMIZED_TELEMETRY=False
+    restart: unless-stopped
+
+  # ---------------------------------------------------------
+  # Redis - Caching (optional, uncomment if needed)
+  # ---------------------------------------------------------
+  # redis:
+  #   image: redis:7-alpine
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_data:/data
+  #   restart: unless-stopped
+
+  # ---------------------------------------------------------
+  # PostgreSQL - Relational Database (optional)
+  # ---------------------------------------------------------
+  # postgres:
+  #   image: postgres:16-alpine
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     POSTGRES_USER: ${POSTGRES_USER:-postgres}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+  #     POSTGRES_DB: ${POSTGRES_DB:-research_assistant}
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   restart: unless-stopped
+
+  # ---------------------------------------------------------
+  # Weaviate - Alternative Vector Database (optional)
+  # ---------------------------------------------------------
+  # weaviate:
+  #   image: semitechnologies/weaviate:1.23.0
+  #   ports:
+  #     - "8080:8080"
+  #   environment:
+  #     QUERY_DEFAULTS_LIMIT: 25
+  #     AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+  #     PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
+  #   volumes:
+  #     - weaviate_data:/var/lib/weaviate
+  #   restart: unless-stopped
+
+# ---------------------------------------------------------
+# Persistent Volumes
+# ---------------------------------------------------------
+volumes:
+  chroma_data:
+  # redis_data:
+  # postgres_data:
+  # weaviate_data:
+
+# ---------------------------------------------------------
+# Networks (optional, for more complex setups)
+# ---------------------------------------------------------
+# networks:
+#   app-network:
+#     driver: bridge
