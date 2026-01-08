@@ -10,7 +10,7 @@ httpx==0.26.0               # For testing FastAPI
 # ---------------------------------------------------------
 # Code Quality - Linting
 # ---------------------------------------------------------
-ruff==0.1.9                 # Fast Python linter (replaces flake8, isort, etc.)
+ruff==0.14.10                 # Fast Python linter (replaces flake8, isort, etc.)
 # flake8==7.0.0             # Alternative linter
 # pylint==3.0.0             # More comprehensive linting
 
