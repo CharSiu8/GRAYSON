@@ -28,8 +28,9 @@ GRAYSON centralizes semantic search across theology and philosophy resources, pr
 - **Library Integration**: Provides direct search links to OMNI and JSTOR
 - **Free PDF Finder**: Automatically searches Unpaywall and Semantic Scholar for open access PDFs of cited sources
 - **"Have You Considered?"**: Suggests related topics to explore after each query
-- **Simple Web UI**: Clean chat interface for easy interaction
-- **/feedback**: Users can provide feedback about their interactions. these messages are webhooked to my Discord
+- **Simple Web UI**: Clean chat interface for easy interaction with dark mode support
+- **/feedback**: Users can provide feedback about their interactions. These messages are webhooked to my Discord
+- **Usage Limits**: Built-in monthly spending cap ($5/month) to prevent runaway API costs. Usage resets automatically at the start of each month
 
 ## Architecture
 
@@ -154,9 +155,10 @@ grayson/
 │   ├── embeddings.py      # OpenAI embeddings wrapper
 │   ├── vectorstore.py     # ChromaDB vector database
 │   ├── llm.py             # LLM client (OpenAI)
-│   └── pdf_lookup.py      # Free PDF finder (Unpaywall/Semantic Scholar)
+│   ├── pdf_lookup.py      # Free PDF finder (Unpaywall/Semantic Scholar)
+│   └── usage_tracker.py   # API usage tracking and monthly spending limits
 ├── frontend/              # Web chat interface
-│   └── index.html         # Single-page chat UI
+│   └── index.html         # Single-page chat UI with dark mode
 ├── tests/                 # Test files
 ├── docs/                  # Documentation
 ├── .github/               # GitHub templates and configuration
@@ -168,9 +170,11 @@ grayson/
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
+| GET | `/` | Serve the web UI |
 | GET | `/health` | Health check |
 | POST | `/ingest` | Ingest papers from OpenAlex |
 | POST | `/query` | Query the knowledge base |
+| POST | `/feedback` | Submit user feedback (sent to Discord) |
 
 ## Contributing
 
