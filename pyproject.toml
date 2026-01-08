@@ -1,0 +1,155 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# ---------------------------------------------------------
+# Project Metadata
+# ---------------------------------------------------------
+[project]
+name = "ai-research-assistant"
+version = "0.1.0"
+description = "An AI-powered research assistant for finding and synthesizing information — integrates Semantic Scholar Open Corpus and API for academic ingestion"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Steven Polino"}
+]
+keywords = ["ai", "research", "llm", "rag", "assistant"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+# Dependencies go here (alternative to requirements.txt)
+# dependencies = [
+#     "langchain>=0.1.0",
+#     "openai>=1.0.0",
+#     "chromadb>=0.4.0",
+# ]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/ai-research-assistant"
+Documentation = "https://github.com/yourusername/ai-research-assistant#readme"
+Repository = "https://github.com/yourusername/ai-research-assistant.git"
+Issues = "https://github.com/yourusername/ai-research-assistant/issues"
+
+# ---------------------------------------------------------
+# Optional: CLI Entry Points
+# If your project has a command-line interface
+# ---------------------------------------------------------
+# [project.scripts]
+# research-assistant = "src.cli:main"
+
+# ---------------------------------------------------------
+# Setuptools Configuration
+# ---------------------------------------------------------
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+# ---------------------------------------------------------
+# Black - Code Formatter
+# ---------------------------------------------------------
+[tool.black]
+line-length = 88
+target-version = ['py310', 'py311', 'py312']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+# ---------------------------------------------------------
+# Ruff - Fast Python Linter
+# ---------------------------------------------------------
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # Pyflakes
+    "I",      # isort
+    "B",      # flake8-bugbear
+    "C4",     # flake8-comprehensions
+    "UP",     # pyupgrade
+    "ARG",    # flake8-unused-arguments
+    "SIM",    # flake8-simplify
+]
+ignore = [
+    "E501",   # line too long (handled by black)
+    "B008",   # do not perform function calls in argument defaults
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ARG"]  # Unused arguments are common in tests
+
+# ---------------------------------------------------------
+# isort - Import Sorter
+# ---------------------------------------------------------
+[tool.isort]
+profile = "black"
+line_length = 88
+skip_gitignore = true
+
+# ---------------------------------------------------------
+# MyPy - Static Type Checker
+# ---------------------------------------------------------
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+strict_optional = true
+ignore_missing_imports = true
+
+# Per-module configuration
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+# ---------------------------------------------------------
+# Pytest - Testing Framework
+# ---------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+asyncio_mode = "auto"
+
+# ---------------------------------------------------------
+# Coverage - Test Coverage
+# ---------------------------------------------------------
+[tool.coverage.run]
+source = ["src"]
+branch = true
+omit = ["tests/*", "**/__pycache__/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]

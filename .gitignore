@@ -1,0 +1,152 @@
+# ---------------------------------------------------------
+# Python
+# ---------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ---------------------------------------------------------
+# Virtual Environments
+# ---------------------------------------------------------
+venv/
+env/
+ENV/
+.venv/
+
+# ---------------------------------------------------------
+# IDE and Editor Files
+# ---------------------------------------------------------
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# ---------------------------------------------------------
+# Environment Variables and Secrets
+# CRITICAL: Never commit API keys or secrets!
+# ---------------------------------------------------------
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+secrets.yaml
+secrets.json
+credentials.json
+
+# ---------------------------------------------------------
+# Testing and Coverage
+# ---------------------------------------------------------
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# ---------------------------------------------------------
+# Type Checking
+# ---------------------------------------------------------
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# ---------------------------------------------------------
+# Jupyter Notebooks
+# ---------------------------------------------------------
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ---------------------------------------------------------
+# AI/ML Specific
+# ---------------------------------------------------------
+# Model files (often too large for Git)
+*.pt
+*.pth
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.joblib
+*.onnx
+*.bin
+models/
+checkpoints/
+
+# Vector database files
+chroma_db/
+*.faiss
+*.index
+vector_store/
+
+# Data files
+data/
+*.csv
+*.parquet
+*.json
+!package.json
+!tsconfig.json
+
+# ---------------------------------------------------------
+# Logs and Temporary Files
+# ---------------------------------------------------------
+*.log
+logs/
+tmp/
+temp/
+cache/
+.cache/
+
+# ---------------------------------------------------------
+# OS Generated Files
+# ---------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ---------------------------------------------------------
+# Documentation Build
+# ---------------------------------------------------------
+docs/_build/
+site/
+
+# ---------------------------------------------------------
+# Docker
+# ---------------------------------------------------------
+*.log
+docker-compose.override.yml
+
+# ---------------------------------------------------------
+# Installers and misc
+# ---------------------------------------------------------
+rustup-init.exe
+_ul
