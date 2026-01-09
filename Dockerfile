@@ -1,7 +1,4 @@
-# ---------------------------------------------------------
-# Stage 1: Builder
-# Install dependencies in a separate stage to keep final image small
-# ---------------------------------------------------------
+
 FROM python:3.11-slim as builder
 
 WORKDIR /app
@@ -15,10 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt .
 RUN pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r requirements.txt
 
-# ---------------------------------------------------------
-# Stage 2: Production
-# Minimal image with only runtime dependencies
-# ---------------------------------------------------------
+
 FROM python:3.11-slim as production
 
 # Create non-root user for security
@@ -65,7 +59,7 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
 CMD ["python", "-m", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 # ---------------------------------------------------------
-# Alternative commands based on your framework:
+# Alternative commands based on framework:
 # ---------------------------------------------------------
 # FastAPI: CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
 # Streamlit: CMD ["streamlit", "run", "src/app.py", "--server.port", "8000"]

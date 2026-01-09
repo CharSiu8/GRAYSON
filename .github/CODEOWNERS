@@ -1,23 +1,2 @@
-# ---------------------------------------------------------
-# Default owner for everything
-# Replace 'yourusername' with your GitHub username
-# ---------------------------------------------------------
-* @yourusername
-
-# ---------------------------------------------------------
-# Specific ownership (examples for larger teams)
-# ---------------------------------------------------------
-
-# Documentation
-# docs/ @yourusername
-
-# CI/CD configuration
-# .github/ @yourusername
-
-# Core ML/AI code
-# src/llm/ @yourusername
-# src/retrieval/ @yourusername
-
-# Infrastructure
-# Dockerfile @yourusername
-# docker-compose.yml @yourusername
+# ----- owner for everything------------------------
+* @https://github.com/CharSiu8
