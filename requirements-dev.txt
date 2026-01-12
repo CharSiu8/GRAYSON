@@ -47,5 +47,5 @@ safety==2.3.5               # Dependency vulnerability checker
 # ---------------------------------------------------------
 # Development Utilities
 # ---------------------------------------------------------
-ipython==8.19.0             # Better Python REPL
+ipython==8.38.0             # Better Python REPL
 python-dotenv==1.0.0        # Load .env files
