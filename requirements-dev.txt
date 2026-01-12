@@ -35,7 +35,7 @@ pre-commit==3.6.0           # Git hooks framework
 # Security Scanning
 # ---------------------------------------------------------
 bandit==1.7.6               # Security linter
-safety==2.3.5               # Dependency vulnerability checker
+safety==3.7.0               # Dependency vulnerability checker
 
 # ---------------------------------------------------------
 # Documentation
