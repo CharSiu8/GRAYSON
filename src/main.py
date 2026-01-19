@@ -106,7 +106,7 @@ logger = logging.getLogger(__name__)
 
 # Path to frontend
 FRONTEND_DIR = Path(__file__).parent.parent / "frontend"
-from .ingest import ingest_openalex_query, search_semanticscholar
+from .ingest import ingest_openalex_query, search_semanticscholar, search_openalex
 from .vectorstore import add_documents, query as vector_query
 from .llm import LLMClient, generate_library_links
 from .pdf_lookup import enrich_sources_with_pdfs
@@ -232,6 +232,54 @@ async def query(req: QueryRequest):
     # Log truncated response (first 200 chars)
     preview = answer[:200].replace('\n', ' ') + ('...' if len(answer) > 200 else '')
     logger.info(f"GRAYSON: {preview}")
+
+    # Extract book mentions from LLM answer and search for them
+    from .llm import extract_book_mentions
+    books = extract_book_mentions(answer)
+    logger.info(f"DEBUG: Extracted {len(books)} book mentions from answer")
+
+    if books:
+        # Search for each book using existing APIs
+        book_sources = []
+        for title, author in books:
+            search_query = f"{title} {author}"
+            logger.info(f"DEBUG: Searching for book: {search_query}")
+
+            # Try Semantic Scholar first
+            try:
+                book_results = search_semanticscholar(search_query, limit=1)
+                if book_results:
+                    # Convert to source format
+                    r = book_results[0]
+                    book_sources.append({
+                        "title": r.get("title") or title,
+                        "doi": r.get("doi") or "",
+                        "year": r.get("year") or 0,
+                        "url": r.get("doi") or r.get("url") or "",
+                    })
+                    continue
+            except Exception as e:
+                logger.info(f"DEBUG: Semantic Scholar failed for book: {e}")
+
+            # Fall back to OpenAlex
+            try:
+                book_results = search_openalex(search_query, per_page=1)
+                if book_results:
+                    r = book_results[0]
+                    book_sources.append({
+                        "title": r.get("title") or title,
+                        "doi": r.get("doi") or "",
+                        "year": r.get("year") or 0,
+                        "url": r.get("doi") or r.get("id") or "",
+                    })
+            except Exception as e:
+                logger.info(f"DEBUG: OpenAlex failed for book: {e}")
+
+        # If we found books, enrich them with PDFs and use as sources
+        if book_sources:
+            logger.info(f"DEBUG: Found {len(book_sources)} books, enriching with PDFs")
+            sources_with_pdfs = await enrich_sources_with_pdfs(book_sources)
+        # else: keep original sources_with_pdfs
 
     return {
         "answer": answer,

@@ -2,7 +2,8 @@
 """
 import os
 import json
-from typing import List, Dict
+import re
+from typing import List, Dict, Tuple
 from urllib.parse import quote_plus, quote
 
 from .config import get_settings
@@ -30,6 +31,36 @@ def generate_library_links(query: str) -> dict:
         "omni": omni_link,
         "jstor": jstor_link,
     }
+
+
+def extract_book_mentions(text: str) -> List[Tuple[str, str]]:
+    """Extract book titles and authors from text.
+
+    Looks for patterns like:
+    - "Title" by Author
+    - works such as "Title" by Author
+    - exploring "Title" by Author
+
+    Returns list of (title, author) tuples.
+    """
+    books = []
+
+    # Pattern: "Book Title" by Author Name
+    # Captures quoted title and author after "by"
+    pattern = r'"([^"]+)"\s+by\s+([A-Z][^.,;\n]+?)(?:[.,;\n]|$)'
+
+    matches = re.finditer(pattern, text)
+    for match in matches:
+        title = match.group(1).strip()
+        author = match.group(2).strip()
+
+        # Clean up author name (remove trailing words like "or", "These", etc.)
+        author = re.sub(r'\s+(or|and|These|This|It).*$', '', author, flags=re.IGNORECASE)
+
+        if title and author:
+            books.append((title, author))
+
+    return books
 
 
 def _format_sources(context_docs: List[dict], sources_used: List[int]) -> str:
