@@ -80,11 +80,9 @@ def search_semanticscholar(query: str, limit: int = 10) -> List[Dict]:
     if api_key:
         headers["x-api-key"] = api_key
 
-    # Append theology context to improve relevance
-    enhanced_query = f"{query} theology philosophy religion"
-
+    # Use original query - Semantic Scholar's AI handles relevance
     params = {
-        "query": enhanced_query,
+        "query": query,
         "limit": limit,
         "fields": "title,abstract,year,doi,url,externalIds"
     }

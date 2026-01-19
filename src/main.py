@@ -167,14 +167,12 @@ async def ingest(req: IngestRequest):
 async def query(req: QueryRequest):
     logger.info(f"USER: {req.question}")
 
-    # Real-time API search instead of vector database
-    # Get fresh results from OpenAlex
-    records = ingest_openalex_query(req.question, max_results=req.top_k)
-    logger.info(f"DEBUG: OpenAlex API returned {len(records)} results")
+    # Prioritize Semantic Scholar for better relevance
+    records = []
 
-    # Optionally add Semantic Scholar results (if API configured)
+    # Try Semantic Scholar first (better semantic search)
     try:
-        sem_results = search_semanticscholar(req.question, limit=min(req.top_k, 5))
+        sem_results = search_semanticscholar(req.question, limit=req.top_k)
         if sem_results:
             logger.info(f"DEBUG: Semantic Scholar API returned {len(sem_results)} results")
             # Convert Semantic Scholar format to records format
@@ -193,7 +191,14 @@ async def query(req: QueryRequest):
                     "metadata": metadata
                 })
     except Exception as e:
-        logger.info(f"DEBUG: Semantic Scholar search skipped: {e}")
+        logger.info(f"DEBUG: Semantic Scholar search failed: {e}")
+
+    # If we don't have enough results, fill with OpenAlex
+    if len(records) < req.top_k:
+        remaining = req.top_k - len(records)
+        openalex_records = ingest_openalex_query(req.question, max_results=remaining)
+        logger.info(f"DEBUG: OpenAlex API returned {len(openalex_records)} results to fill gap")
+        records.extend(openalex_records)
 
     # Convert to hits format for LLM
     hits = []
