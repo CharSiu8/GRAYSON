@@ -106,7 +106,7 @@ logger = logging.getLogger(__name__)
 
 # Path to frontend
 FRONTEND_DIR = Path(__file__).parent.parent / "frontend"
-from .ingest import ingest_openalex_query
+from .ingest import ingest_openalex_query, search_semanticscholar
 from .vectorstore import add_documents, query as vector_query
 from .llm import LLMClient, generate_library_links
 from .pdf_lookup import enrich_sources_with_pdfs
@@ -166,9 +166,45 @@ async def ingest(req: IngestRequest):
 @app.post("/query")
 async def query(req: QueryRequest):
     logger.info(f"USER: {req.question}")
-    hits = vector_query(req.question, top_k=req.top_k)
 
-    # Get source metadata and enrich with free PDF links BEFORE LLM generation
+    # Real-time API search instead of vector database
+    # Get fresh results from OpenAlex
+    records = ingest_openalex_query(req.question, max_results=req.top_k)
+    logger.info(f"DEBUG: OpenAlex API returned {len(records)} results")
+
+    # Optionally add Semantic Scholar results (if API configured)
+    try:
+        sem_results = search_semanticscholar(req.question, limit=min(req.top_k, 5))
+        if sem_results:
+            logger.info(f"DEBUG: Semantic Scholar API returned {len(sem_results)} results")
+            # Convert Semantic Scholar format to records format
+            for r in sem_results:
+                text = r.get("abstract") or ""
+                metadata = {
+                    "title": r.get("title") or "",
+                    "doi": r.get("doi") or "",
+                    "year": r.get("year") or 0,
+                    "url": r.get("doi") or r.get("url") or "",
+                }
+                records.append({
+                    "id": r.get("id"),
+                    "title": r.get("title"),
+                    "text": text,
+                    "metadata": metadata
+                })
+    except Exception as e:
+        logger.info(f"DEBUG: Semantic Scholar search skipped: {e}")
+
+    # Convert to hits format for LLM
+    hits = []
+    for record in records:
+        hits.append({
+            "id": record.get("id"),
+            "document": record.get("text", ""),
+            "metadata": record.get("metadata", {})
+        })
+
+    # Get source metadata and enrich with free PDF links
     sources = [h.get("metadata") for h in hits]
     sources_with_pdfs = await enrich_sources_with_pdfs(sources)
 

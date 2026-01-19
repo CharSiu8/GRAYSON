@@ -1,8 +1,9 @@
 """LLM wrapper with an API-based implementation and a placeholder for local models.
 """
 import os
-from typing import List
-from urllib.parse import quote_plus
+import json
+from typing import List, Dict
+from urllib.parse import quote_plus, quote
 
 from .config import get_settings
 from .usage_tracker import check_usage_limit, record_usage
@@ -11,12 +12,92 @@ SETTINGS = get_settings()
 
 
 def generate_library_links(query: str) -> dict:
-    """Generate search links for OMNI and JSTOR based on the query."""
+    """Generate uOttawa library search links based on the query.
+
+    Returns two search links for the uOttawa library system:
+    - omni: Searches across OCUL Discovery Network (includes OMNI resources)
+    - jstor: Searches specifically within uOttawa's library (which includes JSTOR access)
+    """
     encoded_query = quote_plus(query)
+
+    # OCUL Discovery Network search (OMNI and other consortium resources)
+    omni_link = f"https://ocul-uo.primo.exlibrisgroup.com/discovery/search?vid=01OCUL_UO:UO_DEFAULT&tab=OCULDiscoveryNetwork&query=any,contains,{encoded_query}"
+
+    # uOttawa library search (includes JSTOR through institutional access)
+    jstor_link = f"https://ocul-uo.primo.exlibrisgroup.com/discovery/search?vid=01OCUL_UO:UO_DEFAULT&tab=Everything&query=any,contains,{encoded_query}"
+
     return {
-        "omni": f"https://omni.scholarsportal.info/search?q={encoded_query}",
-        "jstor": f"https://www.jstor.org/action/doBasicSearch?Query={encoded_query}",
+        "omni": omni_link,
+        "jstor": jstor_link,
     }
+
+
+def _format_sources(context_docs: List[dict], sources_used: List[int]) -> str:
+    """Format sources with proper markdown links based on which sources were used."""
+    if not sources_used:
+        return ""
+
+    formatted_sources = []
+    has_free_pdf = False
+
+    for idx in sources_used:
+        # Convert to 0-based index
+        i = idx - 1
+        if i < 0 or i >= len(context_docs):
+            continue
+
+        d = context_docs[i]
+        title = d.get('metadata', {}).get('title', 'Untitled')
+        doi = d.get('metadata', {}).get('doi', '')
+        free_pdf = d.get('metadata', {}).get('free_pdf')
+
+        if free_pdf:
+            has_free_pdf = True
+
+        # Build DOI link
+        doi_link = None
+        if doi and doi.strip() and doi != 'N/A':
+            if not doi.startswith('http'):
+                doi_link = f"https://doi.org/{doi}"
+            else:
+                doi_link = doi
+
+        # Build uOttawa link
+        uottawa_link = None
+        if doi and doi.strip() and doi != 'N/A':
+            # Has DOI - use resolver
+            doi_id = doi.replace('https://doi.org/', '') if doi.startswith('https://doi.org/') else doi
+            doi_encoded = quote(doi_id, safe='')
+            uottawa_link = f"https://uottawa.primo.exlibrisgroup.com/discovery/openurl?institution=01UOTTAWA_INST&vid=01UOTTAWA_INST:UOTTAWA&doi={doi_encoded}"
+        elif title:
+            # No DOI - use title-based search
+            title_encoded = quote_plus(title)
+            uottawa_link = f"https://ocul-uo.primo.exlibrisgroup.com/discovery/search?vid=01OCUL_UO:UO_DEFAULT&tab=OCULDiscoveryNetwork&query=any,contains,{title_encoded}"
+
+        # Build source line with markdown links
+        link_parts = []
+        if doi_link:
+            link_parts.append(f"[{title}]({doi_link})")
+        elif uottawa_link:
+            link_parts.append(f"[{title}]({uottawa_link})")
+        else:
+            link_parts.append(title)
+
+        if uottawa_link and doi_link:
+            link_parts.append(f"[uOttawa Library]({uottawa_link})")
+
+        if free_pdf:
+            link_parts.append(f"[Free PDF]({free_pdf})")
+
+        formatted_sources.append("- " + " | ".join(link_parts))
+
+    result = "\n".join(formatted_sources)
+
+    # Add no PDF message if applicable
+    if not has_free_pdf:
+        result += "\n\nSorry, no free PDFs to these sources were found."
+
+    return result
 
 
 class LLMClient:
@@ -53,18 +134,51 @@ class LLMClient:
             client = OpenAI(api_key=api_key)
             prompt = self._build_prompt(question, context_docs)
             resp = client.chat.completions.create(
-                model=self.model,
+                model="gpt-4o-mini",
                 messages=[{"role": "user", "content": prompt}],
-                max_tokens=512,
+                max_tokens=1024,
                 temperature=0.2,
+                response_format={"type": "json_object"}
             )
 
             # Record token usage
             if resp.usage:
-                record_usage("gpt-3.5-turbo-input", resp.usage.prompt_tokens)
-                record_usage("gpt-3.5-turbo-output", resp.usage.completion_tokens)
+                record_usage("gpt-4o-mini-input", resp.usage.prompt_tokens)
+                record_usage("gpt-4o-mini-output", resp.usage.completion_tokens)
 
-            return resp.choices[0].message.content.strip()
+            # Parse JSON response
+            raw_response = resp.choices[0].message.content.strip()
+            print(f"DEBUG: Raw LLM response:\n{raw_response}\n")
+            try:
+                response_data = json.loads(raw_response)
+                answer = response_data.get("answer", "")
+                sources_used = response_data.get("sources_used", [])
+                have_you_considered = response_data.get("have_you_considered", "")
+
+                # DEBUG: Print what we received
+                print(f"DEBUG: LLM returned sources_used: {sources_used}")
+                print(f"DEBUG: Available context_docs count: {len(context_docs)}")
+
+                # If LLM didn't specify sources, use all available sources
+                if not sources_used:
+                    sources_used = list(range(1, len(context_docs) + 1))
+                    print(f"DEBUG: No sources specified, using all: {sources_used}")
+
+                # Format the final response with proper markdown links
+                formatted_sources = _format_sources(context_docs, sources_used)
+                print(f"DEBUG: Formatted sources:\n{formatted_sources}\n")
+
+                final_response = f"{answer}\n\n**Sources:**\n{formatted_sources}"
+
+                if have_you_considered:
+                    final_response += f"\n\n**Have you considered?** {have_you_considered}"
+
+                return final_response
+
+            except json.JSONDecodeError:
+                # Fallback if JSON parsing fails
+                return raw_response
+
         except Exception as e:
             return f"Error calling OpenAI: {e}"
 
@@ -72,76 +186,86 @@ class LLMClient:
         ctx_parts = []
         for d in context_docs:
             title = d.get('metadata', {}).get('title', d.get('id'))
-            doi = d.get('metadata', {}).get('doi', d.get('metadata', {}).get('url', 'N/A'))
+            doi = d.get('metadata', {}).get('doi', d.get('metadata', {}).get('url', ''))
             free_pdf = d.get('metadata', {}).get('free_pdf')
-            lib_links = generate_library_links(title) if title else {"omni": "", "jstor": ""}
+
+            # Normalize DOI to full URL format if needed
+            doi_link = 'Not available'
+            if doi and doi != 'N/A' and doi.strip():
+                if not doi.startswith('http'):
+                    # DOI is just the ID (e.g., "10.1234/example"), convert to full URL
+                    doi_link = f"https://doi.org/{doi}"
+                else:
+                    doi_link = doi
+
+            # Generate uOttawa library link
+            # If DOI exists: use resolver link (finds paper across all databases)
+            # If no DOI: use title-based search link (helps user find it manually)
+            uottawa_link = 'Not available'
+            if doi and doi != 'N/A' and doi.strip():
+                # Has DOI - use resolver for direct access
+                doi_id = doi.replace('https://doi.org/', '') if doi.startswith('https://doi.org/') else doi
+                doi_encoded = quote(doi_id, safe='')
+                uottawa_link = f"https://uottawa.primo.exlibrisgroup.com/discovery/openurl?institution=01UOTTAWA_INST&vid=01UOTTAWA_INST:UOTTAWA&doi={doi_encoded}"
+            elif title:
+                # No DOI - use title-based search link
+                title_encoded = quote_plus(title)
+                uottawa_link = f"https://ocul-uo.primo.exlibrisgroup.com/discovery/search?vid=01OCUL_UO:UO_DEFAULT&tab=OCULDiscoveryNetwork&query=any,contains,{title_encoded}"
+
             ctx_parts.append(
                 f"Source: {title}\n"
-                f"Original URL: {doi}\n"
-                f"OMNI Link: {lib_links['omni']}\n"
-                f"JSTOR Link: {lib_links['jstor']}\n"
+                f"DOI Link: {doi_link}\n"
+                f"uOttawa Library Link: {uottawa_link}\n"
                 f"Free PDF: {free_pdf if free_pdf else 'Not available'}\n"
                 f"{d.get('document')[:1500]}"
             )
         ctx = "\n\n".join(ctx_parts)
-        prompt = f""" "You are GRAYSON, a scholarly research assistant who analyzes theological concepts and their relationships to biblical texts. In every output, answer the question the user asks before making a reccomendation of source material.
+
+        # Build numbered source list for easy reference
+        source_list = "\n".join([f"{i+1}. {ctx_parts[i]}" for i in range(len(ctx_parts))])
+
+        prompt = f"""You are GRAYSON, a scholarly research assistant who analyzes theological concepts and their relationships to biblical texts.
 
 CONTEXT FROM RETRIEVED SOURCES:
-{ctx}
+{source_list}
 
 USER QUESTION: {question}
 
 INSTRUCTIONS:
 1. When the user asks how a concept relates to specific verses, explain the theological/scholarly connection between them, not just summarize each verse.
-2. ALWAYS ANSWER THE ACTUAL QUESTION BEING ASKED. Provide a concise, helpful answer based on the context above and offer detailed explanations concerning multiple scholars perspectives on the topic.
-3. Always cite your sources using the OMNI and JSTOR links provided in the context (not the original URL). Use the FULL URL starting with https://.
-4. Format source links as clickable markdown links with the ACTUAL URLs.
-5. Provide multiple sources when possible to give a well-rounded answer.
-6. End your response with a "Have you considered?" section that suggests ONE highly related topic, resource, or research direction the user might find valuable. This should be genuinely useful and directly related to their query.
-7. When a Free PDF link is available for a source (not "Not available"), ALWAYS include it in your Sources section. Free PDFs are valuable for researchers who may not have institutional access.
+2. ALWAYS ANSWER THE ACTUAL QUESTION BEING ASKED. Provide a concise, helpful answer based on the context above.
+3. Offer detailed explanations concerning multiple scholars' perspectives on the topic.
+4. In your answer, reference sources by mentioning their titles naturally.
+5. After your answer, indicate which source numbers (1, 2, 3, etc.) you used from the list above.
+6. Suggest ONE related topic, resource, or research direction the user might find valuable for further exploration.
 
-FORMAT YOUR RESPONSE AS:
-[Your answer with inline citations]
-
-**Sources:**
-- [Source Title](https://omni.scholarsportal.info/search?q=...) | [JSTOR](https://www.jstor.org/action/doBasicSearch?Query=...) | [Free PDF](actual_free_pdf_url_if_available)
-
-**Have you considered?** [Your suggestion for a related topic or resource to explore]
-
-IMPORTANT: Replace the "..." with the actual encoded query from the OMNI Link and JSTOR Link URLs provided in each source's context above. If a Free PDF URL is available, include it. If Free PDF says "Not available", omit the Free PDF link for that source. Do NOT use placeholder text."""
+Return your response as JSON with this structure:
+{{
+    "answer": "Your detailed answer to the question with inline source title references",
+    "sources_used": [1, 2, 3],
+    "have_you_considered": "A suggestion for related exploration"
+}}"""
         return prompt
 
     def _generate_placeholder(self, question: str, context_docs: List[dict]) -> str:
-        # Lightweight fallback for local testing: concatenate top context snippets.
-        snippets = []
-        for d in context_docs[:3]:
-            title = d.get('metadata', {}).get('title', '')
-            url = d.get('metadata', {}).get('doi', d.get('metadata', {}).get('url', ''))
-            snippets.append(f"- [{title}]({url})\n  {d.get('document')[:300]}...")
+        # Lightweight fallback for local testing when no API key is available
+        if not context_docs:
+            return "No sources found for your query."
 
-        sources_text = "\n".join(snippets) if snippets else "No sources found."
+        # Use all available sources (up to 5)
+        sources_used = list(range(1, min(len(context_docs) + 1, 6)))
+        formatted_sources = _format_sources(context_docs, sources_used)
 
-        # Set defaults in case no docs found
-        first_title = ""
-        links_1 = {"omni": "", "jstor": ""}
-        second_title = ""
-        links_2 = {"omni": "", "jstor": ""}
+        # Simple answer based on source titles
+        titles = [d.get('metadata', {}).get('title', 'Untitled') for d in context_docs[:3]]
+        answer = f"Based on the available research, relevant sources for your query include: {', '.join(titles[:2])}, and others. For detailed analysis, please configure your OpenAI API key."
 
-        # searching context docs (#1 and 2 most relevant resources to what the user just asked about)
-        # providing their titles to include in the "Have you considered?" section.
-        if context_docs:
-            first_title = context_docs[0].get('metadata', {}).get('title', '')
-            links_1 = generate_library_links(first_title)
-            if len(context_docs) > 1: # >1 prevents crash if only one doc was retreived 
-                second_title = context_docs[1].get('metadata', {}).get('title', '')
-                links_2 = generate_library_links(second_title)
+        # Suggest first relevant paper
+        first_title = context_docs[0].get('metadata', {}).get('title', 'exploring related research')
 
-        return f"""Based on the available research, here are relevant sources for your query:
+        return f"""{answer}
 
-{sources_text}
+**Sources:**
+{formatted_sources}
 
-**Have you considered?**
-- [{first_title}]({links_1['omni']}) (OMNI)
-- [{first_title}]({links_1['jstor']}) (JSTOR)
-- [{second_title}]({links_2['omni']}) (OMNI)
-- [{second_title}]({links_2['jstor']}) (JSTOR)"""
+**Have you considered?** Exploring "{first_title}" for additional context on your question."""
