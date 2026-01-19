@@ -47,14 +47,16 @@ def extract_book_mentions(text: str) -> List[Tuple[str, str]]:
 
     # Pattern: "Book Title" by Author Name OR 'Book Title' by Author Name
     # Captures quoted title (single or double quotes) and author after "by"
-    pattern = r'["\']([^"\']+)["\']\s+by\s+([A-Z][^.,;\n]+?)(?:[.,;\n]|$)'
+    # Stops at punctuation: . , ; ) or newline
+    pattern = r'["\']([^"\']+)["\']\s+by\s+([A-Z][^.,;\n)]+?)(?:[.,;\n)]|$)'
 
     matches = re.finditer(pattern, text)
     for match in matches:
         title = match.group(1).strip()
         author = match.group(2).strip()
 
-        # Clean up author name (remove trailing words like "or", "These", etc.)
+        # Clean up author name (remove trailing punctuation and words)
+        author = re.sub(r'[)\s]+$', '', author)  # Remove trailing ) and whitespace
         author = re.sub(r'\s+(or|and|These|This|It).*$', '', author, flags=re.IGNORECASE)
 
         if title and author:
