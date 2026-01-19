@@ -12,6 +12,29 @@ logger = logging.getLogger(__name__)
 UNPAYWALL_EMAIL = "grayson@research.app"
 
 
+def generate_uottawa_link(doi: str = None, title: str = None) -> Optional[str]:
+    """
+    Generate a uOttawa library link for a source.
+
+    Args:
+        doi: DOI of the paper (preferred)
+        title: Title of the paper (fallback)
+
+    Returns:
+        uOttawa library URL or None
+    """
+    if doi:
+        # Clean DOI
+        clean_doi = doi.replace("https://doi.org/", "").replace("http://doi.org/", "")
+        # OpenURL resolver with DOI
+        return f"https://uottawa.primo.exlibrisgroup.com/discovery/openurl?institution=01UOTTAWA_INST&vid=01UOTTAWA_INST:UOTTAWA&doi={quote(clean_doi, safe='')}"
+    elif title:
+        # Search by title in OMNI
+        return f"https://ocul-uo.primo.exlibrisgroup.com/discovery/search?vid=01OCUL_UO:UO_DEFAULT&tab=OCULDiscoveryNetwork&query=any,contains,{quote(title)}"
+
+    return None
+
+
 async def lookup_pdf_by_doi(doi: str) -> Optional[str]:
     """
     Look up a free PDF URL using DOI.
@@ -136,21 +159,24 @@ async def enrich_sources_with_pdfs(sources: list) -> list:
 
         source_copy = dict(source) if source else {}
 
-        # Try DOI first
+        # Add uOttawa library link (always try to add this)
         doi = source_copy.get("doi") or source_copy.get("url", "")
+        title = source_copy.get("title")
+        uottawa_link = generate_uottawa_link(doi=doi, title=title)
+        if uottawa_link:
+            source_copy["uottawa_link"] = uottawa_link
+
+        # Try to find free PDF
         if "doi.org" in str(doi) or (isinstance(doi, str) and doi.startswith("10.")):
             pdf_url = await lookup_pdf_by_doi(doi)
             if pdf_url:
                 source_copy["free_pdf"] = pdf_url
-                enriched.append(source_copy)
-                continue
-
-        # Fall back to title search
-        title = source_copy.get("title")
-        if title:
-            pdf_url = await lookup_pdf_by_title(title)
-            if pdf_url:
-                source_copy["free_pdf"] = pdf_url
+        else:
+            # Fall back to title search for PDF
+            if title:
+                pdf_url = await lookup_pdf_by_title(title)
+                if pdf_url:
+                    source_copy["free_pdf"] = pdf_url
 
         enriched.append(source_copy)
 
