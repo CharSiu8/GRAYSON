@@ -233,33 +233,24 @@ async def query(req: QueryRequest):
     logger.info(f"DEBUG: Extracted {len(books)} book mentions from answer")
 
     if books:
-        # Search for each book using existing APIs
+        # Create sources directly from extracted books (no API search needed)
         book_sources = []
         for title, author in books:
-            search_query = f"{title} {author}"
-            logger.info(f"DEBUG: Searching for book: {search_query}")
+            logger.info(f"DEBUG: Creating source for: {title} by {author}")
+            # Create source object with title and author
+            # uOttawa link will be generated during enrichment using title
+            book_sources.append({
+                "title": f"{title} by {author}",
+                "doi": "",  # Unknown without API
+                "year": "",  # Unknown without API
+                "url": "",  # uOttawa link will be added during enrichment
+            })
 
-            # Try Semantic Scholar first
-            try:
-                book_results = search_semanticscholar(search_query, limit=1)
-                if book_results:
-                    # Convert to source format
-                    r = book_results[0]
-                    book_sources.append({
-                        "title": r.get("title") or title,
-                        "doi": r.get("doi") or "",
-                        "year": r.get("year") or 0,
-                        "url": r.get("doi") or r.get("url") or "",
-                    })
-                    continue
-            except Exception as e:
-                logger.info(f"DEBUG: Semantic Scholar failed for book: {e}")
-
-        # If we found books, enrich them with PDFs and use as sources
-        if book_sources:
-            logger.info(f"DEBUG: Found {len(book_sources)} books, enriching with PDFs")
-            sources_with_pdfs = await enrich_sources_with_pdfs(book_sources)
-        # else: keep original sources_with_pdfs
+        # Enrich books with uOttawa links and free PDFs
+        logger.info(f"DEBUG: Enriching {len(book_sources)} books with uOttawa links and PDFs")
+        sources_with_pdfs = await enrich_sources_with_pdfs(book_sources)
+        # Note: If original sources_with_pdfs had Semantic Scholar results, they're replaced
+        # This ensures we show books LLM recommended, not random API results
 
     return {
         "answer": answer,
