@@ -190,16 +190,9 @@ class LLMClient:
                 print(f"DEBUG: LLM returned sources_used: {sources_used}")
                 print(f"DEBUG: Available context_docs count: {len(context_docs)}")
 
-                # If LLM didn't specify sources, use all available sources
-                if not sources_used:
-                    sources_used = list(range(1, len(context_docs) + 1))
-                    print(f"DEBUG: No sources specified, using all: {sources_used}")
-
-                # Format the final response with proper markdown links
-                formatted_sources = _format_sources(context_docs, sources_used)
-                print(f"DEBUG: Formatted sources:\n{formatted_sources}\n")
-
-                final_response = f"{answer}\n\n**Sources:**\n{formatted_sources}"
+                # Return clean answer without embedded sources
+                # Sources will be displayed separately by the frontend
+                final_response = answer
 
                 if have_you_considered:
                     final_response += f"\n\n**Have you considered?** {have_you_considered}"
@@ -283,10 +276,6 @@ Return your response as JSON with this structure:
         if not context_docs:
             return "No sources found for your query."
 
-        # Use all available sources (up to 5)
-        sources_used = list(range(1, min(len(context_docs) + 1, 6)))
-        formatted_sources = _format_sources(context_docs, sources_used)
-
         # Simple answer based on source titles
         titles = [d.get('metadata', {}).get('title', 'Untitled') for d in context_docs[:3]]
         answer = f"Based on the available research, relevant sources for your query include: {', '.join(titles[:2])}, and others. For detailed analysis, please configure your OpenAI API key."
@@ -295,8 +284,5 @@ Return your response as JSON with this structure:
         first_title = context_docs[0].get('metadata', {}).get('title', 'exploring related research')
 
         return f"""{answer}
-
-**Sources:**
-{formatted_sources}
 
 **Have you considered?** Exploring "{first_title}" for additional context on your question."""
