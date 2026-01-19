@@ -106,7 +106,7 @@ logger = logging.getLogger(__name__)
 
 # Path to frontend
 FRONTEND_DIR = Path(__file__).parent.parent / "frontend"
-from .ingest import ingest_openalex_query, search_semanticscholar, search_openalex
+from .ingest import search_semanticscholar
 from .vectorstore import add_documents, query as vector_query
 from .llm import LLMClient, generate_library_links
 from .pdf_lookup import enrich_sources_with_pdfs
@@ -153,14 +153,15 @@ async def health_check():
     return {"status": "healthy"}
 
 
-@app.post("/ingest")
-async def ingest(req: IngestRequest):
-    try:
-        records = ingest_openalex_query(req.query, max_results=req.max_results)
-        add_documents(records)
-        return {"ingested": len(records)}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+# Disabled: OpenAlex removed from system
+# @app.post("/ingest")
+# async def ingest(req: IngestRequest):
+#     try:
+#         records = ingest_openalex_query(req.query, max_results=req.max_results)
+#         add_documents(records)
+#         return {"ingested": len(records)}
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/query")
@@ -192,13 +193,6 @@ async def query(req: QueryRequest):
                 })
     except Exception as e:
         logger.info(f"DEBUG: Semantic Scholar search failed: {e}")
-
-    # If we don't have enough results, fill with OpenAlex
-    if len(records) < req.top_k:
-        remaining = req.top_k - len(records)
-        openalex_records = ingest_openalex_query(req.question, max_results=remaining)
-        logger.info(f"DEBUG: OpenAlex API returned {len(openalex_records)} results to fill gap")
-        records.extend(openalex_records)
 
     # Convert to hits format for LLM
     hits = []
@@ -260,20 +254,6 @@ async def query(req: QueryRequest):
                     continue
             except Exception as e:
                 logger.info(f"DEBUG: Semantic Scholar failed for book: {e}")
-
-            # Fall back to OpenAlex
-            try:
-                book_results = search_openalex(search_query, per_page=1)
-                if book_results:
-                    r = book_results[0]
-                    book_sources.append({
-                        "title": r.get("title") or title,
-                        "doi": r.get("doi") or "",
-                        "year": r.get("year") or 0,
-                        "url": r.get("doi") or r.get("id") or "",
-                    })
-            except Exception as e:
-                logger.info(f"DEBUG: OpenAlex failed for book: {e}")
 
         # If we found books, enrich them with PDFs and use as sources
         if book_sources:
