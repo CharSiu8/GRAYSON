@@ -38,25 +38,41 @@ def extract_book_mentions(text: str) -> List[Tuple[str, str]]:
 
     Looks for patterns like:
     - "Title" by Author
+    - Author in "Title"
     - works such as "Title" by Author
-    - exploring "Title" by Author
 
     Returns list of (title, author) tuples.
     """
     books = []
 
-    # Pattern: "Book Title" by Author Name OR 'Book Title' by Author Name
+    # Pattern 1: "Book Title" by Author Name OR 'Book Title' by Author Name
     # Captures quoted title (single or double quotes) and author after "by"
     # Stops at punctuation: . , ; ) or newline
-    pattern = r'["\']([^"\']+)["\']\s+by\s+([A-Z][^.,;\n)]+?)(?:[.,;\n)]|$)'
+    pattern1 = r'["\']([^"\']+)["\']\s+by\s+([A-Z][^.,;\n)]+?)(?:[.,;\n)]|$)'
 
-    matches = re.finditer(pattern, text)
+    matches = re.finditer(pattern1, text)
     for match in matches:
         title = match.group(1).strip()
         author = match.group(2).strip()
 
         # Clean up author name (remove trailing punctuation and words)
         author = re.sub(r'[)\s]+$', '', author)  # Remove trailing ) and whitespace
+        author = re.sub(r'\s+(or|and|These|This|It).*$', '', author, flags=re.IGNORECASE)
+
+        if title and author:
+            books.append((title, author))
+
+    # Pattern 2: Author in "Book Title" OR Author in 'Book Title'
+    # Captures author before "in" and quoted title after
+    pattern2 = r'([A-Z][A-Za-z\.\s]+?)\s+in\s+["\']([^"\']+)["\']'
+
+    matches = re.finditer(pattern2, text)
+    for match in matches:
+        author = match.group(1).strip()
+        title = match.group(2).strip()
+
+        # Clean up author name
+        author = re.sub(r'[,\s]+$', '', author)  # Remove trailing comma and whitespace
         author = re.sub(r'\s+(or|and|These|This|It).*$', '', author, flags=re.IGNORECASE)
 
         if title and author:
