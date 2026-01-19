@@ -153,7 +153,7 @@
                     ${sources.map(s => `
                         <div class="flex items-center gap-2 mb-1 flex-wrap">
                             <span class="text-sm text-gray-700 flex-1 min-w-0">
-                                ${s.title || 'Untitled'} ${s.year ? `(${s.year})` : ''}
+                                ${s.title || 'Untitled'}${s.author ? ` by ${s.author}` : ''}${s.year ? ` (${s.year})` : ''}
                             </span>
                             <div class="flex items-center gap-2">
                                 ${s.uottawa_link ? `<a href="${s.uottawa_link}" target="_blank" class="px-2 py-0.5 bg-red-100 text-red-700 text-xs rounded hover:bg-red-200 transition whitespace-nowrap">uOttawa Library</a>` : ''}

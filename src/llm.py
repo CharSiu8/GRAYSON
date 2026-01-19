@@ -64,7 +64,8 @@ def extract_book_mentions(text: str) -> List[Tuple[str, str]]:
 
     # Pattern 2: Author in "Book Title" OR Author in 'Book Title'
     # Captures author before "in" and quoted title after
-    pattern2 = r'([A-Z][A-Za-z\.\s]+?)\s+in\s+["\']([^"\']+)["\']'
+    # Limit author name to 2-50 chars to prevent matching long phrases
+    pattern2 = r'([A-Z][A-Za-z\.\s]{2,50}?)\s+in\s+["\']([^"\']+)["\']'
 
     matches = re.finditer(pattern2, text)
     for match in matches:

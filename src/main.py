@@ -237,10 +237,11 @@ async def query(req: QueryRequest):
         book_sources = []
         for title, author in books:
             logger.info(f"DEBUG: Creating source for: {title} by {author}")
-            # Create source object with title and author
-            # uOttawa link will be generated during enrichment using title
+            # Store title and author separately
+            # uOttawa link will search by title only (more accurate)
             book_sources.append({
-                "title": f"{title} by {author}",
+                "title": title,  # Title only, no author
+                "author": author,  # Store author separately for display
                 "doi": "",  # Unknown without API
                 "year": "",  # Unknown without API
                 "url": "",  # uOttawa link will be added during enrichment
