@@ -1,94 +1,14 @@
 """
-Main application entry point.
+GRAYSON - Theology & Philosophy Research Assistant
 
-This file initializes the AI Research Assistant application.
-Choose and implement one of the patterns below based on your architecture.
+FastAPI application providing AI-powered research assistance with:
+- Intelligent book extraction from LLM responses
+- Direct uOttawa OMNI library integration
+- Free PDF discovery via Unpaywall and Semantic Scholar
+- Academic paper search with optional Semantic Scholar API
 """
-
-# ---------------------------------------------------------
-# OPTION 1: FastAPI Application (recommended for AI projects)
-# Great for building APIs that can be called from frontends or other services
-# ---------------------------------------------------------
-
-# from fastapi import FastAPI
-# from fastapi.middleware.cors import CORSMiddleware
-#
-# app = FastAPI(
-#     title="AI Research Assistant",
-#     description="An AI-powered research assistant API",
-#     version="0.1.0",
-# )
-#
-# # Enable CORS for frontend access
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["*"],  # Configure appropriately for production
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
-#
-# @app.get("/health")
-# async def health_check():
-#     """Health check endpoint for monitoring."""
-#     return {"status": "healthy"}
-#
-# @app.post("/query")
-# async def query(question: str):
-#     """Process a research query."""
-#     # Your AI logic here
-#     return {"answer": "Implement your research logic here"}
-
-
-# ---------------------------------------------------------
-# OPTION 2: Streamlit Application (great for demos and prototypes)
-# Perfect for portfolio projects - easy to build impressive UIs
-# ---------------------------------------------------------
-
-# import streamlit as st
-#
-# st.set_page_config(
-#     page_title="AI Research Assistant",
-#     page_icon="🔬",
-#     layout="wide",
-# )
-#
-# st.title("AI Research Assistant")
-# st.write("Enter your research question below:")
-#
-# query = st.text_input("Your question:")
-# if st.button("Research"):
-#     with st.spinner("Researching..."):
-#         # Your AI logic here
-#         st.write("Implement your research logic here")
-
-
-# ---------------------------------------------------------
-# OPTION 3: CLI Application
-# Good for tools that run from the command line
-# ---------------------------------------------------------
-
-# import argparse
-#
-# def main():
-#     parser = argparse.ArgumentParser(description="AI Research Assistant")
-#     parser.add_argument("query", help="Your research question")
-#     parser.add_argument("--sources", nargs="+", help="Source documents")
-#     args = parser.parse_args()
-#
-#     # Your AI logic here
-#     print(f"Researching: {args.query}")
-#
-# if __name__ == "__main__":
-#     main()
-
-
-# ---------------------------------------------------------
-# Placeholder - Remove when implementing
-# ---------------------------------------------------------
 import logging
 from pathlib import Path
-from datetime import datetime
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
