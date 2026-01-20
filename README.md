@@ -1,4 +1,4 @@
-# GRAYSON - Theology & Philosophy Research Assistant
+# GRAYSON - Research Assistant
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-green.svg)](https://fastapi.tiangolo.com/)
@@ -12,7 +12,7 @@
 
 **GRAYSON** is an AI-powered research assistant focused exclusively on **theology, philosophy, and biblical studies**. Built for researchers, PhD students, and enthusiasts, it provides intelligent book recommendations with direct access to academic library resources.
 
-Origionally this project was a RAG System utilizing ChromaDB and OpenAI Embeddings. That version can be found here: 
+Origionally this project was a RAG System utilizing ChromaDB and OpenAI Embeddings. That version can be found here: https://github.com/CharSiu8/RAG_Grayson
 I switched to this new liveAPI calling method because it was significantly more simple for the clients needs. All the client wanted was to be able to access sources directly in the OMNI of their university. 
 
 ### The Problem
