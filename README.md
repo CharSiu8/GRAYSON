@@ -336,9 +336,8 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 - [ ] Advanced filtering (date range, methodology, perspective)
 - [ ] 
 ## License
-AGPL-3.0 — Free for personal and educational use.
+all rights reserved
 
-For commercial licensing, contact: [stpolino@gmail.com]
 ## Contact
 
 **Steven Polino** - Project Creator
