@@ -6,7 +6,7 @@
 
 ## Overview
 
-**GRAYSON** is a RAG (Retrieval-Augmented Generation) chatbot I made for my brother in law who is currently doing a PhD. It is focused exclusively on **theology, philosophy, and biblical studies**. It helps researchers, students, and enthusiasts quickly locate and understand academic resources in these fields.
+**GRAYSON** began as a a RAG (Retrieval-Augmented Generation) chatbot I made for for a client who is currently doing a PhD. It was origionally focused exclusively on **theology, philosophy, and biblical studies**. It helps researchers, students, and enthusiasts quickly locate and understand academic resources in these fields. The client's needs changed and GRAYSON became a live API system which directly incorporates the databases he frequents the most. 
 
 ### The Problem
 
