@@ -334,12 +334,16 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 - [ ] Multi-language support for international research
 - [ ] Citation export (BibTeX, RIS, EndNote)
 - [ ] Advanced filtering (date range, methodology, perspective)
-- [ ] 
+
+
 ## License
 
 © 2025 Steven Polino — All Rights Reserved
 
-See [LICENSE](LICENSE) for details on permitted use for recruiters and employers.
+Recruiters/employers welcome to clone and test for evaluation purposes.
+
+See [LICENSE](LICENSE) for full terms.
+
 ## Contact
 
 **Steven Polino** - Project Creator
