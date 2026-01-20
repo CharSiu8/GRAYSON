@@ -184,7 +184,7 @@ class LLMClient:
             client = OpenAI(api_key=api_key)
             prompt = self._build_prompt(question, context_docs)
             resp = client.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-4o",
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=1024,
                 temperature=0.2,
