@@ -73,7 +73,7 @@ async def health_check():
     return {"status": "healthy"}
 
 
-# Disabled: OpenAlex removed from system
+# Disabled: OpenAlex removed from system! gave too many garbage responses
 # @app.post("/ingest")
 # async def ingest(req: IngestRequest):
 #     try:
