@@ -336,8 +336,10 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 - [ ] Advanced filtering (date range, methodology, perspective)
 - [ ] 
 ## License
-all rights reserved
 
+© 2025 Steven Polino — All Rights Reserved
+
+See [LICENSE](LICENSE) for details on permitted use for recruiters and employers.
 ## Contact
 
 **Steven Polino** - Project Creator
