@@ -12,6 +12,9 @@
 
 **GRAYSON** is an AI-powered research assistant focused exclusively on **theology, philosophy, and biblical studies**. Built for researchers, PhD students, and enthusiasts, it provides intelligent book recommendations with direct access to academic library resources.
 
+Origionally this project was a RAG System utilizing ChromaDB and OpenAI Embeddings. That version can be found here: 
+I switched to this new liveAPI calling method because it was significantly more simple for the clients needs. All the client wanted was to be able to access sources directly in the OMNI of their university. 
+
 ### The Problem
 
 Researchers waste hours searching fragmented databases and struggle to find academic sources referenced by AI assistants in their primary libraries. University library catalogs are often difficult to navigate, and tracking down specific theological texts across multiple platforms is tedious.
