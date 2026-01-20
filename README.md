@@ -338,7 +338,12 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) for deta
 - [ ] Multi-language support for international research
 - [ ] Citation export (BibTeX, RIS, EndNote)
 - [ ] Advanced filtering (date range, methodology, perspective)
+## License
 
+
+AGPL-3.0 — Free for personal and educational use.
+
+For commercial licensing, contact: [stpolino@gmail.com]
 ## Contact
 
 **Steven Polino** - Project Creator
